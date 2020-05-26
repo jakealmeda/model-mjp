@@ -62,5 +62,36 @@ function mjp_permalink_brand() {
 	// Sometimes, there's just no point trying to display a whole article title just to edit information on what is already visibly obvious
 	// In this case, we're simply putting an Edit link (probably at the bottom)
 	// We need to add a condition where this will be displayed only on the admin area
-	//echo '<a class="item permalink" href="' . get_permalink() . '" tabindex="-1" aria-hidden="true">Edit</a>';
+	//echo '<a class="item permalink" href="' . get_permalink() . '" tabindex="-1" aria-hidden="true">Edit</a>';f( current_user_can( 'administrator' ) ){} // only if administrator
+
+	// specify user privileges that can edit
+	$user_types = array( 'administrator', 'editor' );
+    
+	// validate if user is logged in
+	if( is_user_logged_in() ) {
+		
+		// what type of access
+		foreach( $user_types as $user_type ) {
+
+			if( current_user_can( $user_type ) ){
+
+				// regular link				
+				//return edit_post_link( 'Edit entry' );
+
+				// OR
+
+				// you might want to use the URL for other purposes
+				return '<a href="'.get_edit_post_link( get_the_ID() ).'">Change me to any text or image</a>';
+
+			}
+
+		}
+
+	}
+
 }
+
+
+
+
+
